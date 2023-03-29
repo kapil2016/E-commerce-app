@@ -3,14 +3,15 @@ import CartContext from "./components/Context/CartContext";
 import { useState } from "react";
 import StorePage from "./pages/Store";
 import AboutPage from "./pages/About";
+import Rootlayout from "./components/Layout/RootLayout";
 const router = createBrowserRouter(
   [
-    {path:'/' , element:<StorePage/>},
-    {path:'/about' , element:<AboutPage/>}
+    {path:'/' , element:<Rootlayout/> , children:[
+      {path:'/' , element:<StorePage/>},
+      {path:'/about' , element:<AboutPage/>}
+    ]}
   ]
 )
-
-
 
 const productsArr = [
   { id: 'p1' ,
@@ -35,18 +36,10 @@ const productsArr = [
   },
 ];
 
-// const productsList = productsArr.map((product) => {
-//   return (
-//     <Col key={product.id}>
-//       <ProductCard item={product}></ProductCard>
-//     </Col>
-//   );
-// });
 
 function App() {
   const[cartVisibility , setCartVisibility] = useState(false)
   const[orderList , setOrderList] = useState([])
-
   const ctxObj = {
     productsList:productsArr,
     cartVisibility:cartVisibility,
@@ -54,17 +47,8 @@ function App() {
     orderList:orderList ,
     setOrderList:setOrderList
   }
-
-
   return (
     <CartContext.Provider value = {ctxObj}>
-      {/* <Header></Header>
-      <Container>
-        <Row>{productsList}</Row>
-      </Container>
-      {cartVisibility && <CartContainer></CartContainer>} */}
-      {/* <StorePage></StorePage> */}
-
       <RouterProvider router={router}/>
     </CartContext.Provider>
   );

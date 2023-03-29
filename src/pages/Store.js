@@ -1,7 +1,5 @@
-import Header from "../components/Header";
 import ProductCard from "../components/Layout/ProductCard";
 import { Container, Row, Col } from "react-bootstrap";
-import CartContainer from "../components/Cart/CartConatiner";
 import CartContext from "../components/Context/CartContext";
 import { useContext} from "react";
 
@@ -16,15 +14,12 @@ function StorePage() {
       </Col>
     );
   });
-
-
+  
   return (
     <>
-      <Header></Header>
       <Container>
         <Row>{productsList}</Row>
       </Container>
-      {ctx.cartVisibility && <CartContainer></CartContainer>}
     </>
   );
 }

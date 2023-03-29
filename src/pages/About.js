@@ -1,15 +1,8 @@
 import React from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
-import Header from '../components/Header';
-import CartContext from '../components/Context/CartContext';
-import { useContext } from 'react';
-import CartContainer from '../components/Cart/CartConatiner';
-
 const AboutPage = () => {
-  const ctx = useContext(CartContext)
   return (
     <>
-    <Header></Header>
     <Container>
       <Row>
         <Col>
@@ -18,7 +11,6 @@ const AboutPage = () => {
         </Col>
       </Row>
     </Container>
-    {ctx.cartVisibility && <CartContainer></CartContainer>}
     </>
   );
 };
