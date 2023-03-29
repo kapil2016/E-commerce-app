@@ -4,11 +4,13 @@ import { useState } from "react";
 import StorePage from "./pages/Store";
 import AboutPage from "./pages/About";
 import Rootlayout from "./components/Layout/RootLayout";
+import HomePage from "./pages/Home";
 const router = createBrowserRouter(
   [
     {path:'/' , element:<Rootlayout/> , children:[
       {path:'/' , element:<StorePage/>},
-      {path:'/about' , element:<AboutPage/>}
+      {path:'/about' , element:<AboutPage/>},
+      {path:'/home' , element:<HomePage/>}
     ]}
   ]
 )
