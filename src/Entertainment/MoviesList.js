@@ -2,14 +2,15 @@ import React from "react";
 import MovieCard from "./MovieCard";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import { useState } from "react";
+import { useEffect } from "react";
 
-async function fetchMovie(setMovies, setIsLoading, setError) {
+async function fetchMovie(setMovies, setIsLoading, setError , setRetry) {
   try {
     setIsLoading(true);
     setError(null);
-    const response = await fetch("https://swapi.dev/api/films");
+    const response = await fetch("https://swapi.dev/api/film");
     if (!response.ok) {
-      throw new Error("Somthing Went Wrong");
+      throw new Error("Somthing Went Wrong ...Retrying");
     }
     const data = await response.json();
     const movies = data.results.map((item) => {
@@ -26,6 +27,7 @@ async function fetchMovie(setMovies, setIsLoading, setError) {
   } catch (error) {
     setIsLoading(false);
     setError(error);
+    setRetry(true)
   }
 }
 
@@ -33,6 +35,7 @@ const MovieList = (props) => {
   const [movies, setMovies] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [retry , setRetry] = useState(false);
 
   let content = <p> No Movie Found </p>;
   if (movies.length > 0) {
@@ -46,10 +49,29 @@ const MovieList = (props) => {
       </Row>
     );
   }
+  const cancelRetrying = ()=>{
+    content = <p></p>
+    setError(null);
+    setRetry(false);
+    
+  }
 
   if (error) {
-    content = <p> {`${error}`} </p>;
+    content = <div> {`${error}`} <Button variant="outline-danger" onClick={cancelRetrying} > cancle</Button> </div>;
   }
+  
+  useEffect(()=>{
+    const timer = setTimeout(() => {
+        if(retry){
+            fetchMovie(setMovies, setIsLoading, setError , setRetry)
+            setRetry(false); 
+            console.log('retrying..')
+        }
+    }, 5000);
+    return ()=>clearTimeout(timer);
+  },[retry])
+   
+
   if (isLoading) {
     content = <p> Loading Movies </p>;
   }
@@ -58,7 +80,7 @@ const MovieList = (props) => {
     <Container>
       <Button
         onClick={() => {
-          fetchMovie(setMovies, setIsLoading, setError);
+          fetchMovie(setMovies, setIsLoading, setError , setRetry);
         }}
       >
         Fetch Movie
