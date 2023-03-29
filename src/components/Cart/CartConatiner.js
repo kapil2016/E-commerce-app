@@ -14,7 +14,7 @@ function CartContainer() {
     <Container
       fluid
       className="bg-light p-3"
-      style={{ position: "fixed", top: 60, right: 0, width: "30%" }}
+      style={{ position: "fixed", top: 60, right: 0, width: "30%" , maxHeight: "70vh"}}
     >
       <Button
         variant="outline-danger"
@@ -27,22 +27,26 @@ function CartContainer() {
         <Col xs={12}>
           <h4 className="text-center mb-4">My Cart</h4>
           {orderList.length > 0 ? (
+            <div className="order-list" style={{ maxHeight: "calc(70vh - 100px)", overflowY: "auto" ,overflowX: 'hidden' }}>
             <OrderList
               orders={orderList}
             />
+            </div>
+           
           ) : (
             <p className="text-center">Your cart is empty.</p>
           )}
         </Col>
       </Row>
-      <hr />
+      {orderList.length > 0 ? (<><hr />
       <div className="d-flex justify-content-between">
         <h5>Total Amount:</h5>
         <h5>Rs. {totalAmount} </h5>
       </div>
       <Button variant="primary" block>
         Place Order
-      </Button>
+      </Button></> ): <hr/>}
+     
     </Container>
   );
 }
