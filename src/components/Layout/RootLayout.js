@@ -6,11 +6,10 @@ import { useContext } from "react"
 
 const Rootlayout = ()=>{
     const ctx = useContext(CartContext)
-    
     return <>
     <Header/>
-    {ctx.cartVisibility && <CartContainer></CartContainer>}
     <Outlet/>
+    {ctx.cartVisibility && <CartContainer></CartContainer>}
     </>
 }
 

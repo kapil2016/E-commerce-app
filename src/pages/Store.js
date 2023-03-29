@@ -8,17 +8,16 @@ function StorePage() {
   const productsArr  = ctx.productsList
   const productsList = productsArr.map((product) => {
     return (
-      <Col key={product.url}>
-        {" "}
+      <Col key={product.url} className="col-md-3" >
         <ProductCard item={product}></ProductCard>
       </Col>
     );
   });
-  
+
   return (
     <>
       <Container>
-        <Row>{productsList}</Row>
+        <Row className="row">{productsList}</Row>
       </Container>
     </>
   );
