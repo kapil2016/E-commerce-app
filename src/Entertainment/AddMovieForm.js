@@ -1,7 +1,25 @@
 import { useState } from 'react';
 import { Form, Button, Card } from 'react-bootstrap';
+import { useContext } from 'react';
+import MovieContext from '../components/Context/MovieContext';
+async function addMovie(movieData , setMovieList , movieList){
+    const response =  await fetch('https://movie-store-20f0d-default-rtdb.firebaseio.com/movies.json', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(movieData)
+      })
+    const data = await response.json();
+    console.log({...movieData ,id:data.name})
+    setMovieList([{...movieData ,id:data.name},...movieList]);
+    
+}
 
 function MyForm(props) {
+  const ctx = useContext(MovieContext)  ;
+  const setMovieList = ctx.setMovieList ; 
+  const movieList = ctx.movieList;
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [releaseDate, setReleaseDate] = useState('');
@@ -9,6 +27,12 @@ function MyForm(props) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    const obj = {title:title , description: description , release_Date:releaseDate , imageUrl:imageUrl}
+    addMovie(obj,setMovieList , movieList)
+    setTitle('')
+    setDescription('')
+    setReleaseDate('')
+    setImageUrl('')
     
   }
 
@@ -44,7 +68,7 @@ function MyForm(props) {
             </div>
           </Form>
           <div className="d-grid gap-2 mt-3">
-              <Button variant="primary" type="submit" onClick={()=>props.showForm(false)}>
+              <Button variant="primary"  onClick={()=>props.showForm(false)}>
                 Cancle
               </Button>
             </div>

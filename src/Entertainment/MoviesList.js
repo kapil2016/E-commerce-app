@@ -3,25 +3,23 @@ import MovieCard from "./MovieCard";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import { useState } from "react";
 import { useEffect } from "react";
+import { useContext } from "react";
+import MovieContext from "../components/Context/MovieContext";
 
 async function fetchMovie(setMovies, setIsLoading, setError , setRetry) {
   try {
     setIsLoading(true);
     setError(null);
-    const response = await fetch("https://swapi.dev/api/films");
+    const response = await fetch("https://movie-store-20f0d-default-rtdb.firebaseio.com/movies.json");
     if (!response.ok) {
       throw new Error("Somthing Went Wrong ...Retrying");
     }
     const data = await response.json();
-    const movies = data.results.map((item) => {
-      return {
-        id: item.release_date,
-        title: item.title,
-        description: item.opening_crawl,
-        releaseDate: item.release_date,
-        imageUrl: "https://xyz",
-      };
-    });
+    const movies = [] ;
+    for(let key in data){
+      movies.push({id:key ,title: data[key].title , description:data[key].description , releaseDate:data[key].release_Date , imageUrl:data[key].imageUrl})
+    }
+    
     setMovies(movies);
     setIsLoading(false);
   } catch (error) {
@@ -32,7 +30,10 @@ async function fetchMovie(setMovies, setIsLoading, setError , setRetry) {
 }
 
 const MovieList = (props) => {
-  const [movies, setMovies] = useState([]);
+  const ctx = useContext(MovieContext) ;
+  const movies = ctx.movieList;
+  const setMovies = ctx.setMovieList;
+  // const [movies, setMovies] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const [retry , setRetry] = useState(false);
@@ -42,7 +43,7 @@ const MovieList = (props) => {
     content = (
       <Row className="row">
         {movies.map((movie) => (
-          <Col className="col-md-6" key={movie.id}>
+          <Col className="col-md-4" key={movie.id}>
             <MovieCard movie={movie} />
           </Col>
         ))}
@@ -69,11 +70,11 @@ const MovieList = (props) => {
     }, 5000);
     return ()=>clearTimeout(timer)
   }
-  },[retry])
+  },[retry,setMovies])
 
   useEffect(()=>{
     fetchMovie(setMovies, setIsLoading, setError , setRetry) 
-  },[])
+  },[setMovies])
    
 
   if (isLoading) {
