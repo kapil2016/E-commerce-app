@@ -86,9 +86,12 @@ const MovieList = (props) => {
         onClick={() => {
           fetchMovie(setMovies, setIsLoading, setError , setRetry);
         }}
+        className='m-2'
       >
         Fetch Movie
       </Button>
+      <Button className="m-2" onClick={()=>{props.showForm(true)}}> Add Movie</Button>
+
       {content}
     </Container>
   );
