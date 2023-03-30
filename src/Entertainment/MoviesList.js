@@ -8,7 +8,7 @@ async function fetchMovie(setMovies, setIsLoading, setError , setRetry) {
   try {
     setIsLoading(true);
     setError(null);
-    const response = await fetch("https://swapi.dev/api/film");
+    const response = await fetch("https://swapi.dev/api/films");
     if (!response.ok) {
       throw new Error("Somthing Went Wrong ...Retrying");
     }
@@ -61,15 +61,19 @@ const MovieList = (props) => {
   }
   
   useEffect(()=>{
+    if(retry){
     const timer = setTimeout(() => {
-        if(retry){
             fetchMovie(setMovies, setIsLoading, setError , setRetry)
             setRetry(false); 
             console.log('retrying..')
-        }
     }, 5000);
-    return ()=>clearTimeout(timer);
+    return ()=>clearTimeout(timer)
+  }
   },[retry])
+
+  useEffect(()=>{
+    fetchMovie(setMovies, setIsLoading, setError , setRetry) 
+  },[])
    
 
   if (isLoading) {
