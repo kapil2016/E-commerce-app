@@ -6,13 +6,16 @@ import AboutPage from "./pages/About";
 import Rootlayout from "./components/Layout/RootLayout";
 import HomePage from "./pages/Home";
 import MoviePage from "./Entertainment/MoviesPage";
+import ContactUs from "./pages/ContactUs";
+
 const router = createBrowserRouter(
   [
     {path:'/' , element:<Rootlayout/> , children:[
       {path:'/' , element:<StorePage/>},
       {path:'/about' , element:<AboutPage/>},
       {path:'/home' , element:<HomePage/>},
-      {path:'/movies', element: <MoviePage/>}
+      {path:'/movies', element: <MoviePage/>},
+      {path:'/contact', element: <ContactUs/>}
     ]}
   ]
 )

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Form, Button, Card } from 'react-bootstrap';
+import { Form, Button, Card} from 'react-bootstrap';
 import { useContext } from 'react';
 import MovieContext from '../components/Context/MovieContext';
 async function addMovie(movieData , setMovieList , movieList){
@@ -11,7 +11,7 @@ async function addMovie(movieData , setMovieList , movieList){
         body: JSON.stringify(movieData)
       })
     const data = await response.json();
-    console.log({...movieData ,id:data.name})
+    // console.log({...movieData ,id:data.name})
     setMovieList([{...movieData ,id:data.name},...movieList]);
     
 }
@@ -33,7 +33,7 @@ function MyForm(props) {
     setDescription('')
     setReleaseDate('')
     setImageUrl('')
-    
+
   }
 
   return (
@@ -43,17 +43,17 @@ function MyForm(props) {
           <Form onSubmit={handleSubmit}>
             <Form.Group controlId="formTitle">
               <Form.Label>Title</Form.Label>
-              <Form.Control type="text" placeholder="Enter title" value={title} onChange={(e) => setTitle(e.target.value)} />
+              <Form.Control type="text" placeholder="Enter title" value={title} onChange={(e) => setTitle(e.target.value)} required />
             </Form.Group>
 
             <Form.Group controlId="formDescription">
               <Form.Label>Description</Form.Label>
-              <Form.Control as="textarea" rows={3} placeholder="Enter description" value={description} onChange={(e) => setDescription(e.target.value)} />
+              <Form.Control as="textarea" rows={3} placeholder="Enter description" value={description} onChange={(e) => setDescription(e.target.value)} required />
             </Form.Group>
 
             <Form.Group controlId="formReleaseDate">
               <Form.Label>Release Date</Form.Label>
-              <Form.Control type="date" placeholder="Enter release date" value={releaseDate} onChange={(e) => setReleaseDate(e.target.value)} />
+              <Form.Control type="date" placeholder="Enter release date" value={releaseDate} onChange={(e) => setReleaseDate(e.target.value)} required/>
             </Form.Group>
 
             <Form.Group controlId="formImageUrl">
