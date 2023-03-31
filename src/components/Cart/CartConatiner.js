@@ -10,6 +10,7 @@ function CartContainer() {
     orderList.forEach((item)=>{
         totalAmount += item.price*item.quantity ;
     })
+    totalAmount = totalAmount.toFixed(2)
   return (
     <Container
       fluid
