@@ -1,25 +1,14 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+
 import CartContext from "./components/Context/CartContext";
 import { useState } from "react";
 import StorePage from "./pages/Store";
 import AboutPage from "./pages/About";
-import Rootlayout from "./components/Layout/RootLayout";
 import HomePage from "./pages/Home";
 import MoviePage from "./Entertainment/MoviesPage";
 import ContactUs from "./pages/ContactUs";
-
-const router = createBrowserRouter(
-  [
-    {path:'/' , element:<Rootlayout/> , children:[
-      {path:'/' , element:<StorePage/>},
-      {path:'/about' , element:<AboutPage/>},
-      {path:'/home' , element:<HomePage/>},
-      {path:'/movies', element: <MoviePage/>},
-      {path:'/contact', element: <ContactUs/>}
-    ]}
-  ]
-)
-
+import { Route ,Routes} from "react-router-dom";
+import Header from "./components/Header";
+import CartContainer from "./components/Cart/CartConatiner";
 const productsArr = [
   { id: 'p1' ,
     title: "Colors",
@@ -56,7 +45,15 @@ function App() {
   }
   return (
     <CartContext.Provider value = {ctxObj}>
-      <RouterProvider router={router}/>
+      <Header></Header>
+      <Routes>
+      <Route path = '/'  element={<HomePage/>}/>
+      <Route path = '/store'  element={<StorePage/>}/>
+      <Route path = '/about'  element={<AboutPage/>}/>
+      <Route path = '/movies'  element={<MoviePage/>}/>
+      <Route path = '/contact'  element={<ContactUs/>}/>
+      </Routes>
+      {cartVisibility && <CartContainer></CartContainer>}
     </CartContext.Provider>
   );
 }
