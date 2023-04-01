@@ -12,6 +12,7 @@ import CartContainer from "./components/Cart/CartConatiner";
 import ProductDetails from "./pages/ProductDetails";
 import SignUpModal from "./components/AuthForm/SignUpModal";
 import ProfilePage from "./pages/ProfilePage";
+import { useEffect } from "react";
 const productsArr = [
   {
     id: 'p1',
@@ -81,6 +82,15 @@ function App() {
   const[signInModalVisibility,setSignInModalVisibility] = useState(false);
   const[idToken, setIdToken]=useState(userIdToken);
   const[isLogedIn, setIsLogedIn] = useState(userLogedIn);
+  // const[loginStateTimer, setLoginStateTimer] = useState(isLogedIn) ;
+  useEffect(()=>{
+    if(isLogedIn){
+      setTimeout(()=>{
+        localStorage.setItem('idToken' , '')
+      },1*60*1000)
+      // return clearTimeout(timer);
+    }
+  },[isLogedIn])
   const ctxObj = {
     productsList:productsArr,
     cartVisibility:cartVisibility,
