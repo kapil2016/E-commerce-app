@@ -45,6 +45,7 @@ const SignUpModal = () => {
         console.log(data.error.message)
       }else{
         if(data.registered){
+            localStorage.setItem('idToken' , data.idToken );
             ctx.setIsLogedIn(true)
             ctx.setSignInModalVisibility(false)
             ctx.setIdToken(data.idToken);

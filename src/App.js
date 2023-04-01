@@ -74,11 +74,13 @@ const productsArr = [
 
 
 function App() {
+  const userIdToken = localStorage.getItem('idToken') ? localStorage.getItem('idToken') : '' ;
+  const userLogedIn = userIdToken === '' ? false : true ;
   const[cartVisibility , setCartVisibility] = useState(false)
   const[orderList , setOrderList] = useState([])
   const[signInModalVisibility,setSignInModalVisibility] = useState(false);
-  const[idToken, setIdToken]=useState('');
-  const[isLogedIn, setIsLogedIn] = useState(false)
+  const[idToken, setIdToken]=useState(userIdToken);
+  const[isLogedIn, setIsLogedIn] = useState(userLogedIn);
   const ctxObj = {
     productsList:productsArr,
     cartVisibility:cartVisibility,
