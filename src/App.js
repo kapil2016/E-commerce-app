@@ -11,6 +11,7 @@ import Header from "./components/Header";
 import CartContainer from "./components/Cart/CartConatiner";
 import ProductDetails from "./pages/ProductDetails";
 import SignUpModal from "./components/AuthForm/SignUpModal";
+import ProfilePage from "./pages/ProfilePage";
 const productsArr = [
   {
     id: 'p1',
@@ -101,6 +102,7 @@ function App() {
       <Route path = '/about'  element={<AboutPage/>}/>
       <Route path = '/movies'  element={<MoviePage/>}/>
       <Route path = '/contact'  element={<ContactUs/>}/>
+      <Route path = '/user/:userID'  element={<ProfilePage/>}/>
       <Route path = '/products/:productID'  element={<ProductDetails/>}/>
       </Routes>
       {cartVisibility && <CartContainer></CartContainer>}

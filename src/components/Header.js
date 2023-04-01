@@ -36,6 +36,9 @@ function Header() {
             <Link to="/contact" className="nav-link">Contact Us</Link>
           </Nav>
           <Nav>
+          {ctx.isLogedIn && <Link to={`/user/${ctx.idToken}`} className="nav-link"> My Profile </Link>}
+          </Nav>
+          <Nav>
             <Button variant="outline-warning" onClick={loginLogoutHandler} style={{ marginRight: "1rem" }}>{`${signIn? 'Logout' : 'Login'}`}</Button>
           </Nav>
           <Nav>
