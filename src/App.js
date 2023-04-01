@@ -10,6 +10,7 @@ import { Route ,Routes} from "react-router-dom";
 import Header from "./components/Header";
 import CartContainer from "./components/Cart/CartConatiner";
 import ProductDetails from "./pages/ProductDetails";
+import SignUpModal from "./components/AuthForm/SignUpModal";
 const productsArr = [
   {
     id: 'p1',
@@ -74,15 +75,20 @@ const productsArr = [
 function App() {
   const[cartVisibility , setCartVisibility] = useState(false)
   const[orderList , setOrderList] = useState([])
+  const[signInModalVisibility,setSignInModalVisibility] = useState(false);
   const ctxObj = {
     productsList:productsArr,
     cartVisibility:cartVisibility,
     setCartVisibility:setCartVisibility,
     orderList:orderList ,
-    setOrderList:setOrderList
+    setOrderList:setOrderList,
+    isSignIn:false,
+    signInModalVisibility:signInModalVisibility,
+    setSignInModalVisibility:setSignInModalVisibility
   }
   return (
     <CartContext.Provider value = {ctxObj}>
+      <SignUpModal show ={signInModalVisibility}></SignUpModal>
       <Header></Header>
       <Routes>
       <Route path = '/'  element={<HomePage/>}/>

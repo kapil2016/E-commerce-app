@@ -1,24 +1,31 @@
 import { Card, Button } from "react-bootstrap";
 import CartContext from "../Context/CartContext";
 import { useContext } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 function ProductCard(props) {
   const { id, title, price, imageSrc } = props.item;
   const ctx = useContext(CartContext);
   const orderList = [...ctx.orderList];
+  const signIn = ctx.isSignIn;
   const buttonClickHandler = () => {
-    const n = orderList.length;
-    for (let i = 0; i <= n; i++) {
-      if (i < n && orderList[i].id === id) {
-        orderList[i].quantity += 1;
-        break;
-      } else if (i === n) {
-        const obj = { ...props.item, quantity: 1 };
-        orderList.push(obj);
+    if(signIn){
+      const n = orderList.length;
+      for (let i = 0; i <= n; i++) {
+        if (i < n && orderList[i].id === id) {
+          orderList[i].quantity += 1;
+          break;
+        } else if (i === n) {
+          const obj = { ...props.item, quantity: 1 };
+          orderList.push(obj);
+        }
       }
+      ctx.setOrderList(orderList);
+    }else{
+      ctx.setSignInModalVisibility(true);
     }
-    ctx.setOrderList(orderList);
+    
+
   };
 
   return (

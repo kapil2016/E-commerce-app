@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 function Header() {
    const ctx = useContext(CartContext); 
    const orderlist = ctx.orderList ;
+   const signIn = ctx.isSignIn;
    let cartItemCount = 0 ;
    orderlist.forEach(item => {
        cartItemCount += item.quantity
@@ -22,6 +23,9 @@ function Header() {
             <Link to="/movies" className="nav-link">Entertainment</Link>
             <Link to="/about" className="nav-link">About</Link>
             <Link to="/contact" className="nav-link">Contact Us</Link>
+          </Nav>
+          <Nav>
+            <Button variant="outline-warning" onClick={()=>ctx.setSignInModalVisibility(true)} style={{ marginRight: "1rem" }}>{`${signIn? 'Logout' : 'Login'}`}</Button>
           </Nav>
           <Nav>
             <Button variant="outline-warning" onClick={()=>ctx.setCartVisibility(!ctx.cartVisibility)} >{`My Cart ${cartItemCount}`}</Button>
