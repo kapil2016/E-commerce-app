@@ -115,7 +115,7 @@ function App() {
       <Route path = '/movies'  element={<MoviePage/>}/>
       <Route path = '/contact'  element={<ContactUs/>}/>
       <Route path = '/user/:userID'  element={<ProfilePage/>}/>
-      <Route path = '/products/:productID'  element={<ProductDetails/>}/>
+      <Route path = '/products/:productID/:idToken'  element={<ProductDetails/>}/>
       </Routes>
       {cartVisibility && <CartContainer></CartContainer>}
     </CartContext.Provider>
