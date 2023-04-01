@@ -22,7 +22,7 @@ const SignUpModal = () => {
      
      let URL = "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyCYysnrcjF9jMpj1sFW-G2oPbN36VSNC4Y" ;
      if(isSignIn){
-        URL = 'https://identitytoolkit.googleapis.com/v1/accounts:signInWithCustomToken?key=AIzaSyCYysnrcjF9jMpj1sFW-G2oPbN36VSNC4Y'
+        URL = "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyCYysnrcjF9jMpj1sFW-G2oPbN36VSNC4Y"
      }
 
       const response = await fetch(
@@ -43,6 +43,15 @@ const SignUpModal = () => {
       if(data.error){
         alert(data.error.message)
         console.log(data.error.message)
+      }else{
+        if(data.registered){
+            ctx.setIsLogedIn(true)
+            ctx.setSignInModalVisibility(false)
+            ctx.setIdToken(data.idToken);
+            console.log(data.idToken);
+        }else{
+            setIsSignIn(true);
+        }
       }
       console.log(data);
       setIsLoading(false);
@@ -69,7 +78,7 @@ const SignUpModal = () => {
           {/* <Modal.Title>
             {isSignIn ? 'Sign In' : 'Sign Up'}
           </Modal.Title> */}
-          <Nav variant="pills" defaultActiveKey={isSignIn ? 'sign-in' : 'sign-up'}>
+          <Nav variant="pills" defaultActiveKey={isSignIn ? "sign-in" : "sign-up"}>
             <Nav.Item>
               <Nav.Link eventKey="sign-up" onClick={handleSignUp}>
                 Sign Up

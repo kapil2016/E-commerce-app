@@ -76,19 +76,24 @@ function App() {
   const[cartVisibility , setCartVisibility] = useState(false)
   const[orderList , setOrderList] = useState([])
   const[signInModalVisibility,setSignInModalVisibility] = useState(false);
+  const[idToken, setIdToken]=useState('');
+  const[isLogedIn, setIsLogedIn] = useState(false)
   const ctxObj = {
     productsList:productsArr,
     cartVisibility:cartVisibility,
     setCartVisibility:setCartVisibility,
     orderList:orderList ,
     setOrderList:setOrderList,
-    isSignIn:false,
+    isLogedIn:isLogedIn,
+    setIsLogedIn:setIsLogedIn,
+    idToken:idToken,
+    setIdToken:setIdToken,
     signInModalVisibility:signInModalVisibility,
     setSignInModalVisibility:setSignInModalVisibility
   }
   return (
     <CartContext.Provider value = {ctxObj}>
-      <SignUpModal show ={signInModalVisibility}></SignUpModal>
+      <SignUpModal></SignUpModal>
       <Header></Header>
       <Routes>
       <Route path = '/'  element={<HomePage/>}/>

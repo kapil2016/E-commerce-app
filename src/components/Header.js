@@ -6,11 +6,22 @@ import { Link } from 'react-router-dom';
 function Header() {
    const ctx = useContext(CartContext); 
    const orderlist = ctx.orderList ;
-   const signIn = ctx.isSignIn;
+   const signIn = ctx.isLogedIn;
    let cartItemCount = 0 ;
    orderlist.forEach(item => {
        cartItemCount += item.quantity
    });
+
+   const loginLogoutHandler = ()=>{
+    if(ctx.isLogedIn){
+      ctx.setIsLogedIn(false);
+      ctx.setIdToken(null);
+      ctx.setOrderList([]);
+    }else{
+      ctx.setSignInModalVisibility(true);
+    }
+   }
+
   return (
     <Navbar bg="dark" variant="dark" expand="lg">
       <Container>
@@ -25,7 +36,7 @@ function Header() {
             <Link to="/contact" className="nav-link">Contact Us</Link>
           </Nav>
           <Nav>
-            <Button variant="outline-warning" onClick={()=>ctx.setSignInModalVisibility(true)} style={{ marginRight: "1rem" }}>{`${signIn? 'Logout' : 'Login'}`}</Button>
+            <Button variant="outline-warning" onClick={loginLogoutHandler} style={{ marginRight: "1rem" }}>{`${signIn? 'Logout' : 'Login'}`}</Button>
           </Nav>
           <Nav>
             <Button variant="outline-warning" onClick={()=>ctx.setCartVisibility(!ctx.cartVisibility)} >{`My Cart ${cartItemCount}`}</Button>

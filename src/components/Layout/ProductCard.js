@@ -7,7 +7,7 @@ function ProductCard(props) {
   const { id, title, price, imageSrc } = props.item;
   const ctx = useContext(CartContext);
   const orderList = [...ctx.orderList];
-  const signIn = ctx.isSignIn;
+  const signIn = ctx.isLogedIn;
   const buttonClickHandler = () => {
     if(signIn){
       const n = orderList.length;
