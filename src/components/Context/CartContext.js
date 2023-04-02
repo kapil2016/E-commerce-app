@@ -10,7 +10,9 @@ const CartContext = React.createContext(
     isLogedIn:false,
     setIsLogedIn:()=>{},
     signInModalVisibility:false ,
-    setSignInModalVisibility:()=>{}
+    setSignInModalVisibility:()=>{},
+    userEmail : '' ,
+    setUserEmail : ()=>{}
   }
 )
 

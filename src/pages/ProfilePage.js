@@ -45,7 +45,7 @@ const ProfilePage = () => {
         <Col md={4}>
           <Image src="user-image-url" thumbnail />
           <h4 className="mt-2">Username</h4>
-          <p>Email: user-email</p>
+          <p>{`Email : ${ctx.userEmail}`}</p>
           <Form onSubmit={updateUserPassword}>
             <Form.Group controlId="formBasicPassword">
               <Form.Label>Password</Form.Label>
