@@ -13,28 +13,28 @@ import ProductDetails from "./pages/ProductDetails";
 import SignUpModal from "./components/AuthForm/SignUpModal";
 import ProfilePage from "./pages/ProfilePage";
 import { useEffect } from "react";
-const API_ENDPOINT = '3f3c9494031b49679a19b6d4a1f2c3d5'
+// const API_ENDPOINT = '3f3c9494031b49679a19b6d4a1f2c3d5'
 async function getUserCart(emailID) {
   const modifiedEmail = emailID.replace(/[.@]/g, "");
-  const response = await fetch(`https://crudcrud.com/api/${API_ENDPOINT}/${modifiedEmail}`);
+  const response = await fetch(`https://movie-store-20f0d-default-rtdb.firebaseio.com/ecommerce/${modifiedEmail}/cart.json`);
   const result = await response.json();
-  return result;
+  return result.orderList;
 }
-async function createUserCart(emailID, data) {
+// async function createUserCart(emailID, data) {
+//   const modifiedEmail = emailID.replace(/[.@]/g, "");
+//   const response = await fetch(`https://crudcrud.com/api/${API_ENDPOINT}/${modifiedEmail}`, {
+//     method: "POST",
+//     headers: {
+//       "Content-Type": "application/json",
+//     },
+//     body: JSON.stringify({orderList:data}),
+//   });
+//   const result = await response.json();
+//   return result;
+// }
+async function updateUserCart(emailID, data) {
   const modifiedEmail = emailID.replace(/[.@]/g, "");
-  const response = await fetch(`https://crudcrud.com/api/${API_ENDPOINT}/${modifiedEmail}`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({orderList:data}),
-  });
-  const result = await response.json();
-  return result;
-}
-async function updateUserCart(emailID, data , id) {
-  const modifiedEmail = emailID.replace(/[.@]/g, "");
-  const response = await fetch(`https://crudcrud.com/api/${API_ENDPOINT}/${modifiedEmail}/${id}`, {
+  const response = await fetch(`https://movie-store-20f0d-default-rtdb.firebaseio.com/ecommerce/${modifiedEmail}/cart.json`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
@@ -109,9 +109,9 @@ const productsArr = [
 
 function App() {
   const cartUpdateid = useRef('');
-  const userIdToken = localStorage.getItem('idToken') ? localStorage.getItem('idToken') : '' ;
-  const email = localStorage.getItem('email') ? localStorage.getItem('email') : '' ;
-  const userLogedIn = userIdToken === '' ? false : true ;
+  const userIdToken = localStorage.getItem('idToken') 
+  const email = localStorage.getItem('email')
+  const userLogedIn = !!userIdToken 
   const[cartVisibility , setCartVisibility] = useState(false)
   const[orderList , setOrderList] = useState([])
   const[signInModalVisibility,setSignInModalVisibility] = useState(false);
@@ -121,8 +121,8 @@ function App() {
   useEffect(()=>{
     if(isLogedIn){
       setTimeout(()=>{
-        localStorage.setItem('idToken' , '')
-        localStorage.setItem('email' , '')
+        localStorage.removeItem('idToken')
+        localStorage.removeItem('email')
       },5*60*1000)
       // return clearTimeout(timer);
     }
@@ -131,24 +131,15 @@ function App() {
   useEffect(()=>{
     if(isLogedIn){
       getUserCart(userEmail).then(data=>{
-        if(data[0]){  
-          cartUpdateid.current = data[0]['_id']
-          setOrderList(data[0].orderList);
-          console.log(data[0].orderList)
-          console.log(cartUpdateid.current); 
-        }else{
-          createUserCart(userEmail,[]).then((data)=>{
-            cartUpdateid.current = data[0]['_id']
-            console.log(cartUpdateid.current);
-        });
-        }
+        setOrderList(data);
       })
     }
-  },[isLogedIn,userEmail,cartUpdateid])
+  },[isLogedIn,userEmail])
 
   useEffect(()=>{
+    if(orderList)
     if(isLogedIn && userEmail){
-      updateUserCart(userEmail , orderList, cartUpdateid.current).then(data=>console.log(data))
+      updateUserCart(userEmail , orderList).then(data=>console.log(data))
     }
   },[orderList,userEmail,isLogedIn])
 

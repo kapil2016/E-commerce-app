@@ -40,6 +40,7 @@ const SignUpModal = () => {
         }
       );
       const data = await response.json();
+    
       if(data.error){
         alert(data.error.message)
         console.log(data.error.message)
